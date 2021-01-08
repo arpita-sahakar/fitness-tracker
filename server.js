@@ -23,10 +23,13 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 // api routes
 
 app.get("/api/workouts/range", (req, res) => {
-  db.Workout.find().sort({day:-1}).limit(7)
+  db.Workout.find()
+    .sort({ day: -1 })
+    .limit(7)
     //   .populate("exercise")
-    .then((dbUser) => {
-      res.json(dbUser);
+    .then((data) => {
+      // console.log(data);
+      res.json(data);
     })
     .catch((err) => {
       res.json(err);
@@ -69,7 +72,7 @@ app.get("/api/workoutsById/:id", (req, res) => {
 });
 // -------------------------------------------------------------------------------------
 app.post("/api/workouts", (req, res) => {
-  req.body.totDuration = 0;
+  console.log(req.body);
   db.Workout.create(req.body)
     .then((data) => {
       res.json(data);
