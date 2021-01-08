@@ -9,7 +9,7 @@ const WorkoutSchema = new Schema({
   },
   exercises: [
     {
-        exerciseType: {
+        type: {
             type: String,
             required: [true, "Exercise type is mandatory"],
             enum: ["resistance", "cardio"],
@@ -26,30 +26,38 @@ const WorkoutSchema = new Schema({
           weight: {
             type: Number,
             required: function (){
-                return this.exerciseType === "resistance"
+                return this.type === "resistance"
             },
           },
           reps:  {
             type: Number,
             required: function (){
-                return this.exerciseType === "resistance"
+                return this.type === "resistance"
             },
           },
           sets: {
             type: Number,
             required: function (){
-                return this.exerciseType === "resistance"
+                return this.type === "resistance"
             },
           },
           distance:  {
             type: Number,
             required: function (){
-                return this.exerciseType === "cardio"
+                return this.type === "cardio"
             },
           },
     }
-  ]
+  ],
+  totDuration : Number
 });
+
+WorkoutSchema.methods.setTotalDuration = function() {
+  console.log("inside set duration");
+  console.log(this);
+
+  return this.totDuration;
+};
 
 const Workout = mongoose.model("Workout", WorkoutSchema);
 
