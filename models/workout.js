@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// schema for workout with validations
 const WorkoutSchema = new Schema({
   day: {
     type: Date,
@@ -51,6 +52,8 @@ const WorkoutSchema = new Schema({
   ],
 });
 
+// Get the total duration without storing the data into database using mongoose virtual.
+//This field (totalDuration) will be returned only when the data is fetched
 WorkoutSchema.set("toObject", { virtuals: true });
 WorkoutSchema.set("toJSON", { virtuals: true });
 
@@ -59,7 +62,6 @@ WorkoutSchema.virtual("totalDuration").get(function () {
   for (i = 0; i < this.exercises.length; i++) {
     totDuration = totDuration + this.exercises[i].duration;
   }
-
   return totDuration;
 });
 
